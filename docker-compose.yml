@@ -4,7 +4,7 @@ version: '3.9'
 services: # defino os serviços do projeto
     nodejs: # serviço do NodeJs do projeto
         build: . # construo a imagem com base no Dockerfile na raiz
-        image: node:22-alpine # imagem do NodeJs usada no Dockerfile
+        image: backend_node # nome da imagem que será criada a partir do build do Dockerfile
         ports:
             - '3333:3333' # conecto as portas do container e do host
         depends_on:
