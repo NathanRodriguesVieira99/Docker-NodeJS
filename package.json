@@ -14,6 +14,7 @@
         "format": "prettier --write .",
         "prisma:generate": "npx prisma generate",
         "prisma:migrate": "npx prisma migrate dev",
+        "prisma:deploy": "npx prisma migrate deploy && npx prisma generate",
         "prisma:studio": "npx prisma studio",
         "docker:up": "docker compose up -d",
         "docker:stop": "docker compose stop",
