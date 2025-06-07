@@ -19,10 +19,12 @@ export async function CreateUserController(
         });
     } catch (error) {
         if (error instanceof UserAlreadyExistsError) {
-            return reply.status(409);
+            return reply.status(409).send({ message: error.message });
         }
-        throw Error;
+        return reply
+            .status(500)
+            .send({ message: 'Internal server error', error });
     }
 
-    return reply.status(201).send();
+    return reply.status(201).send({ message: 'user created' });
 }
