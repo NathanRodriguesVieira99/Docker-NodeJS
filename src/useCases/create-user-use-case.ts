@@ -22,15 +22,15 @@ export class CreateUserUseCase implements CreateUserUseCaseProps {
     }
 
     async create(data: Prisma.UserCreateInput): Promise<User> {
-        const user = await prisma.user.create({
-            data,
-        });
-
         const userWithSameEmail = await this.findByEmail(data.email);
 
         if (userWithSameEmail) {
             throw new UserAlreadyExistsError();
         }
+
+        const user = await prisma.user.create({
+            data,
+        });
 
         return user;
     }
