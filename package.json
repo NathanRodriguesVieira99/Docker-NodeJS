@@ -7,6 +7,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "lets-code": "pnpm docker:up && pnpm dev",
         "dev": "set NODE_ENV=dev&& tsx watch src/server.ts",
         "build": "tsup src --out-dir build ",
         "start": "set NODE_ENV=production&& node build/server.cjs",
