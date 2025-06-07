@@ -1,0 +1,11 @@
+node_modules
+build
+coverage
+
+.git
+.vscode
+.github
+.husky
+
+.env
+.env.example
