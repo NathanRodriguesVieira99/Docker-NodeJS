@@ -2,18 +2,18 @@ import { app } from './app';
 import request from 'supertest';
 
 describe('app test', () => {
-    beforeAll(async () => {
-        await app.ready();
-    });
+  beforeAll(async () => {
+    await app.ready();
+  });
 
-    afterAll(async () => {
-        await app.close();
-    });
+  afterAll(async () => {
+    await app.close();
+  });
 
-    it('should verify if server is running', async () => {
-        const response = await request(app.server).get('/').expect(200);
+  it('should verify if server is running', async () => {
+    const response = await request(app.server).get('/').expect(200);
 
-        expect(response.body).toBeDefined();
-        expect(response.status).toBe(200);
-    });
+    expect(response.body).toBeDefined();
+    expect(response.status).toBe(200);
+  });
 });
