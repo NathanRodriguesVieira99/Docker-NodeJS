@@ -18,10 +18,8 @@ services: # defino os serviços do projeto
     ports:
       - '5432:5432' # conecto as portas do container e do host
 
-    environment: # declara as variáveis de ambiente do banco de dados
-      - POSTGRESQL_USERNAME=docker # usuário do banco de dados
-      - POSTGRESQL_PASSWORD=docker # senha do banco de dados
-      - POSTGRESQL_DATABASE=api_node # nome do banco de dados
+    env_file: # declara as variáveis de ambiente do banco de dados
+      - .env
 
     restart: always # reinicia o container caso falhe
 
