@@ -3,18 +3,26 @@ version: '3.9'
 
 services: # defino os serviços do projeto
   nodejs: # serviço do NodeJs do projeto
+
     build: . # construo a imagem com base no Dockerfile na raiz
+
     image: backend_node # nome da imagem que será criada a partir do build do Dockerfile
+
     ports:
       - '3333:3333' # conecto as portas do container e do host
+
     depends_on:
       - postgresql # espera rodar o postgreSQL antes de subir o NodeJs
+
     restart: always # reinicia o container caso falhe
+
     env_file:
       - .env # carrega as variáveis de ambiente
 
   postgresql: # serviço do postgreSQL
+
     image: bitnami/postgresql:latest # uso a imagem do postgreSQL da Bitnami
+
     ports:
       - '5432:5432' # conecto as portas do container e do host
 
@@ -22,7 +30,7 @@ services: # defino os serviços do projeto
       - .env
 
     restart: always # reinicia o container caso falhe
-
+    
     volumes:
       - polls_pg_data:/var/lib/postgresql/data # persistência do banco de dados
 
