@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { UserNotExistsError } from './errors/user-not-exists-error';
 
 interface IDeleteUserUseCase {
   delete(id: string): Promise<boolean>;
@@ -13,7 +14,7 @@ export class DeleteUserUseCase implements IDeleteUserUseCase {
     });
 
     if (!id) {
-      return false;
+      throw new UserNotExistsError();
     }
 
     return true;
