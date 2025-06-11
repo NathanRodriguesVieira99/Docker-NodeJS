@@ -1,5 +1,6 @@
 import type { User } from '@/generated/prisma';
 import { prisma } from '@/lib/prisma';
+import { UserNotExistsError } from './errors/user-not-exists-error';
 
 interface IlistUsersUseCaseProps {
   listUsers(): Promise<User[]>;
@@ -17,6 +18,10 @@ export class ListUsersUseCase implements IlistUsersUseCaseProps {
         updated_at: true,
       },
     });
+
+    if (!users) {
+      throw new UserNotExistsError();
+    }
 
     return users.map((user) => user);
   }
