@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { hash } from 'bcryptjs';
 import { randomInt } from 'crypto';
 
-interface CreateUserUseCaseProps {
+export interface ICreateUserUseCaseProps {
   create(user: {
     name: string;
     email: string;
@@ -12,13 +12,13 @@ interface CreateUserUseCaseProps {
   }): Promise<User>;
 }
 
-interface ICreateUserUseCaseParams {
+export interface ICreateUserUseCaseParams {
   name: string;
   email: string;
   password: string;
 }
 
-export class CreateUserUseCase implements CreateUserUseCaseProps {
+export class CreateUserUseCase implements ICreateUserUseCaseProps {
   async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
