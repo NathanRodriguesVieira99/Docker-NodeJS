@@ -1,24 +1,22 @@
 import type { User } from '@/generated/prisma';
+import type { PrismaUserRepository } from '@/repositories/user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 import { prisma } from '@/lib/prisma';
 import { hash } from 'bcryptjs';
 import { randomInt } from 'crypto';
-
-export interface ICreateUserUseCaseProps {
-  create(user: {
-    name: string;
-    email: string;
-    password: string;
-  }): Promise<User>;
-}
 
 export interface ICreateUserUseCaseParams {
   name: string;
   email: string;
   password: string;
 }
+export interface ICreateUserUseCaseResponse {
+  user: User;
+}
 
-export class CreateUserUseCase implements ICreateUserUseCaseProps {
+export class CreateUserUseCase {
+  constructor(private prismaUsersRepository: PrismaUserRepository) {}
+
   async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: {
@@ -37,7 +35,7 @@ export class CreateUserUseCase implements ICreateUserUseCaseProps {
     name,
     email,
     password,
-  }: ICreateUserUseCaseParams): Promise<User> {
+  }: ICreateUserUseCaseParams): Promise<ICreateUserUseCaseResponse> {
     const randomHash = randomInt(6, 10);
     const hashedPassword = await hash(password, randomHash);
 
@@ -47,14 +45,12 @@ export class CreateUserUseCase implements ICreateUserUseCaseProps {
       throw new UserAlreadyExistsError();
     }
 
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password_hash: hashedPassword,
-      },
+    const user = await this.prismaUsersRepository.create({
+      name,
+      email,
+      password_hash: hashedPassword,
     });
 
-    return user;
+    return { user };
   }
 }
