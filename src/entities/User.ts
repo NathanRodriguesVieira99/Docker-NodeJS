@@ -1,5 +1,5 @@
 import { compare, hash } from 'bcryptjs';
-import { randomInt, randomUUID } from 'crypto';
+import { randomInt, randomUUID } from 'node:crypto';
 
 interface UserProps {
   id: string;
