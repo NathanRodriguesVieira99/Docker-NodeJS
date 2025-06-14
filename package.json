@@ -19,7 +19,11 @@
     "prisma:studio": "npx prisma studio",
     "docker:up": "docker compose up -d",
     "docker:stop": "docker compose stop",
-    "test": "jest",
+    "test": "jest --passWithNoTests --maxWorkers=80% --runInBand --no-cache",
+    "test:watch": "jest --watch",
+    "test:watchAll": "jest --watchAll",
+    "test:staged": "jest --findRelatedTests --passWithNoTests --runInBand --no-cache",
+    "test:push": "jest --coverage --passWithNoTests --bail  --no-cache",
     "test:coverage": "jest --coverage",
     "prepare": "husky"
   },
