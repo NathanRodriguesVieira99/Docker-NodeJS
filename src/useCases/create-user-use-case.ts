@@ -1,9 +1,8 @@
 import type { User } from '@/generated/prisma';
 import type { PrismaUserRepository } from '@/repositories/user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
-import { prisma } from '@/lib/prisma';
 import { hash } from 'bcryptjs';
-import { randomInt } from 'crypto';
+import { randomInt } from 'node:crypto';
 
 export interface ICreateUserUseCaseParams {
   name: string;
@@ -18,11 +17,7 @@ export class CreateUserUseCase {
   constructor(private prismaUsersRepository: PrismaUserRepository) {}
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const user = await this.prismaUsersRepository.findByEmail(email);
 
     if (!user) {
       return null;
