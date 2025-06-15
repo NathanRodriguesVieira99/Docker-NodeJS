@@ -10,7 +10,7 @@ interface UserProps {
   updated_at?: Date;
 }
 
-export class User {
+export class User implements UserProps {
   public readonly id: string;
   public name: string;
   public email: string;
