@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { PrismaUserRepository } from '@/repositories/user-repository';
+import { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import { requestBodySchema } from '@/schemas/requestBodySchema';
 import { CreateUserUseCase } from '@/useCases/create-user-use-case';
 import { UserAlreadyExistsError } from '@/useCases/errors/user-already-exists-error';
