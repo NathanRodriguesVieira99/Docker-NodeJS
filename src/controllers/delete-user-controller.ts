@@ -1,6 +1,6 @@
-import { deleteByIDSchema } from '@/schemas/deleteByIDSchema';
-import { DeleteUserUseCase } from '@/useCases/delete-user-use-case';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { makeDeleteUserUseCase } from '@/factories/make-delete-user-use-case';
+import { deleteByIDSchema } from '@/schemas/deleteByIDSchema';
 
 export async function DeleteUserController(
   request: FastifyRequest,
@@ -9,7 +9,7 @@ export async function DeleteUserController(
   try {
     const { id } = deleteByIDSchema.parse(request.params);
 
-    const deleteUsersUseCase = new DeleteUserUseCase();
+    const deleteUsersUseCase = makeDeleteUserUseCase();
 
     await deleteUsersUseCase.delete(id);
   } catch (error) {
