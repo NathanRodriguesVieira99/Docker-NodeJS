@@ -1,23 +1,12 @@
+import type { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import type { User } from '@/generated/prisma';
-import { prisma } from '@/lib/prisma';
 import { UserNotExistsError } from './errors/user-not-exists-error';
 
-interface IlistUsersUseCaseProps {
-  listUsers(): Promise<User[]>;
-}
+export class ListUsersUseCase {
+  constructor(private userRepository: PrismaUserRepository) {}
 
-export class ListUsersUseCase implements IlistUsersUseCaseProps {
   async listUsers(): Promise<User[]> {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        password_hash: true,
-        created_at: true,
-        updated_at: true,
-      },
-    });
+    const users = await this.userRepository.listAll();
 
     if (!users) {
       throw new UserNotExistsError();
