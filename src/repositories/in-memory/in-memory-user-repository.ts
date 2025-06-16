@@ -19,4 +19,19 @@ export class InMemoryUserRepository implements IUserRepository {
 
     return user;
   }
+  async delete(id: string): Promise<boolean> {
+    const index = this.items.findIndex((item) => item.id === id);
+
+    if (index !== 1) {
+      this.items.splice(index, 1);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  async listAll(): Promise<User[]> {
+    return [...this.items];
+  }
 }
