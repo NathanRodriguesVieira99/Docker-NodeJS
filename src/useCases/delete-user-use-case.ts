@@ -1,17 +1,11 @@
-import { prisma } from '@/lib/prisma';
 import { UserNotExistsError } from './errors/user-not-exists-error';
+import type { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 
-interface IDeleteUserUseCase {
-  delete(id: string): Promise<boolean>;
-}
+export class DeleteUserUseCase {
+  constructor(private userRepository: PrismaUserRepository) {}
 
-export class DeleteUserUseCase implements IDeleteUserUseCase {
   async delete(id: string) {
-    await prisma.user.delete({
-      where: {
-        id,
-      },
-    });
+    await this.userRepository.delete(id);
 
     if (!id) {
       throw new UserNotExistsError();
