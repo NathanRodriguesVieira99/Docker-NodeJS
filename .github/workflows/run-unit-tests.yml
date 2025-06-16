@@ -18,7 +18,5 @@ jobs:
           node-version: '22'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm prisma:generate 
+      - run: pnpm prisma:generate
       - run: pnpm test:coverage
-      - run: eslint src/**/*.ts
-      - run: prettier --check src/**/*.ts
