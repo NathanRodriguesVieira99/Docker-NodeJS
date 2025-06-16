@@ -1,5 +1,5 @@
 node_modules
 build
-/src/generated/prisma
+generated
 coverage
 .env
