@@ -1,12 +1,12 @@
-import { ListUsersUseCase } from '@/useCases/list-users-use-case';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { makeListUsersUseCase } from '@/factories/make-list-users-use-case';
 
 export async function ListUsersController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
   try {
-    const listUsersUseCase = new ListUsersUseCase();
+    const listUsersUseCase = makeListUsersUseCase();
 
     const users = await listUsersUseCase.listUsers();
 
