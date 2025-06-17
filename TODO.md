@@ -7,9 +7,13 @@
 [x] - Adicionar factories
 [] - Escrever testes unitários e e2e (fazer setup do Jest para E2E) para as partes mais importantes do projeto
 [x] - Configurar CI/CD
-[] - Documentar com Swagger
+[] - Documentar com Swagger (tentar novamente pois está dando erro)
 [] - Autenticação com JWT
 [] - Melhores validações com zod (schemas)
+
+## Urgente
+
+[] - Corrigir erro do localhost ao rodar com Docker
 
 ## Secundário/Opcional
 
