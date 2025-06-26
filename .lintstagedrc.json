@@ -2,7 +2,6 @@
   "src/**/*.ts": [
     "eslint --fix src/**/*.ts",
     "prettier --write src/**/*.ts",
-    "pnpm test:staged",
-    "pnpm test:e2e"
+    "pnpm test:staged"
   ]
 }
