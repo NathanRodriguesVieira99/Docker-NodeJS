@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=22.15.1"
   },
-  "description": "",
+  "description": "Projeto de estudos de NodeJs com Docker, Prisma e PostgreSQL",
   "main": "index.js",
   "scripts": {
     "lets-code": "pnpm docker:up && pnpm dev",
@@ -37,7 +37,7 @@
   },
   "keywords": [],
   "author": "NathanRodriguesVieira99",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@fastify/cors": "^11.0.1",
     "@prisma/client": "^6.10.1",
