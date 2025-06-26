@@ -1,7 +1,7 @@
 import { app } from './app';
 import request from 'supertest';
 
-describe('app test', () => {
+describe('E2E: app server test', () => {
   beforeAll(async () => {
     await app.ready();
   });
