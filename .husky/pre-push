@@ -1,1 +1,3 @@
 pnpm test:push 
+
+echo "pre-push hook has been executed 🚀"
