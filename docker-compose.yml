@@ -9,6 +9,7 @@ services: # defino os serviços do projeto
 
     ports:
       - '3333:3333' # conecto as portas do container e do host
+      - '5555:5555' # porta do prisma client no docker
 
     depends_on:
       - postgresql # espera rodar o postgreSQL antes de subir o NodeJs
