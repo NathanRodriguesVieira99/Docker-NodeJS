@@ -1,6 +1,7 @@
 import { fastify } from 'fastify';
 import { Routes } from '@/routes';
 import { fastifyCors } from '@fastify/cors';
+import { loggerConfig } from '@/lib/logger';
 import {
   // jsonSchemaTransform,
   serializerCompiler,
@@ -8,7 +9,9 @@ import {
   ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 
-export const app = fastify().withTypeProvider<ZodTypeProvider>();
+export const app = fastify({
+  logger: loggerConfig,
+}).withTypeProvider<ZodTypeProvider>();
 
 app.setSerializerCompiler(serializerCompiler);
 app.setValidatorCompiler(validatorCompiler);
