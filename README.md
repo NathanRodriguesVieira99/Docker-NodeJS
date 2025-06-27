@@ -1,4 +1,4 @@
-# Docker NodeJS
+# API com NodeJS e Docker
 
 ## 💡 Sobre
 
@@ -115,17 +115,6 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 - Use `.env.docker` e comandos `pnpm db:*`/`pnpm docker:*` dentro do container para desenvolvimento 100% Docker.
 
 Consulte sempre este README para saber qual comando usar em cada ambiente.
-
----
-
-## 🛠️ Scripts úteis
-
-- `pnpm db:migrate` — roda as migrações Prisma dentro do container
-- `pnpm db:generate` — gera o Prisma Client dentro do container
-- `pnpm db:seed` — roda o seed dentro do container
-- `pnpm db:studio` — abre o Prisma Studio dentro do container
-- `pnpm docker:up` — sobe os containers em background
-- `pnpm docker:stop` — para os containers
 
 ---
 
