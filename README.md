@@ -1,6 +1,6 @@
 # Docker NodeJS
 
-## Sobre
+## 💡 Sobre
 
 Projeto criado com Node.js (Fastify), Prisma, Docker e PostgreSQL, com foco em estudos de backend, arquitetura escalável e boas práticas de desenvolvimento.
 
@@ -8,7 +8,7 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 ---
 
-## Principais bibliotecas e ferramentas
+## 🧰 Principais bibliotecas e ferramentas
 
 - **Fastify**: Framework web Node.js extremamente rápido e leve, usado para criar a API HTTP. Permite tipagem, validação e performance superior ao Express.
 - **Prisma**: ORM moderno para Node.js e TypeScript. Facilita o acesso ao banco de dados, migrations, validação de dados e geração de tipos automáticos.
@@ -19,7 +19,7 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 ---
 
-## Primeiros passos
+## 🏁 Primeiros passos
 
 1. **Clone o repositório:**
    ```sh
@@ -42,29 +42,36 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 ---
 
-## Como rodar localmente (fora do Docker)
+## Diferenças entre rodar Localmente e com Docker
 
-1. Suba o banco de dados com Docker:
+Rodar o projeto localmente ou via Docker muda a forma como você executa comandos e interage com o ambiente. Veja as principais diferenças:
 
-   ```sh
-   docker compose up -d postgresql
-   ```
+### 💻 Rodando Localmente
 
-2. Ajuste o `.env` para usar `localhost` no `DATABASE_URL`.
+- O Node.js roda diretamente na sua máquina.
+- O banco de dados pode rodar em container Docker **ou** em uma instância local instalada manualmente (ex: criada via pgAdmin, PostgreSQL nativo, etc).
+- Os comandos (migrations, seed, start, etc) são executados diretamente no seu terminal.
+- O arquivo de ambiente usado é o `.env`.
+
+**Fluxo típico:**
+
+1. Certifique-se de que o banco de dados PostgreSQL está rodando:
+   - Pode ser um container Docker **ou** um banco local criado manualmente (ex: via pgAdmin).
+2. Ajuste o `.env` para usar `localhost` (ou o host correto) no `DATABASE_URL`.
 3. Instale as dependências (caso ainda não tenha feito):
 
    ```sh
    pnpm install
    ```
 
-4. Rode as migrações e o seed:
+4. Rode as migrações e o seed (direto no seu terminal):
 
    ```sh
    pnpm prisma:migrate
    pnpm prisma:seed
    ```
 
-5. Inicie o servidor:
+5. Inicie o servidor localmente:
 
    ```sh
    pnpm dev
@@ -74,10 +81,16 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 
 ---
 
-## Como rodar tudo no Docker
+### 🐳 Rodando com Docker
+
+- Tanto o Node.js quanto o banco de dados rodam em containers Docker.
+- Os comandos de banco (migrations, seed, etc) devem ser executados _dentro_ do container.
+- O arquivo de ambiente usado é o `.env.docker`.
+
+**Fluxo típico:**
 
 1. Ajuste o `.env.docker` se necessário.
-2. Suba todos os serviços:
+2. Suba todos os serviços (Node.js e banco):
 
    ```sh
    pnpm docker:up
@@ -85,7 +98,7 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
    docker compose up --build
    ```
 
-3. Rode as migrações e o seed dentro do container:
+3. Rode as migrações e o seed **dentro do container**:
 
    ```sh
    pnpm db:migrate
@@ -96,7 +109,16 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 
 ---
 
-## Scripts úteis
+**Resumo prático:**
+
+- Use `.env` e comandos `pnpm prisma:*`/`pnpm dev` no terminal local para desenvolvimento fora do Docker.
+- Use `.env.docker` e comandos `pnpm db:*`/`pnpm docker:*` dentro do container para desenvolvimento 100% Docker.
+
+Consulte sempre este README para saber qual comando usar em cada ambiente.
+
+---
+
+## 🛠️ Scripts úteis
 
 - `pnpm db:migrate` — roda as migrações Prisma dentro do container
 - `pnpm db:generate` — gera o Prisma Client dentro do container
@@ -107,24 +129,60 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 
 ---
 
-# Explicação dos scripts principais do package.json
+## Explicação dos scripts principais do package.json
 
-- **pnpm lets-code**: Sobe os containers Docker em background (`docker:up`) e inicia o servidor localmente (`dev`). Útil para desenvolvimento local rápido.
+### 👨‍💻 Desenvolvimento
+
 - **pnpm dev**: Inicia o servidor em modo desenvolvimento, com hot reload. Usa o arquivo `.env` local.
 - **pnpm build**: Faz o build do projeto TypeScript para a pasta `build` usando o `tsup`.
 - **pnpm start**: Inicia o servidor em modo produção, rodando o arquivo já compilado em `build/server.cjs`.
+
+### 🎨 Lint e formatação
+
+- **pnpm lint**: Corrige automaticamente problemas de lint nos arquivos `.ts` em `src/`.
+- **pnpm format**: Formata todo o projeto com o Prettier.
+
+### 📝 Prisma (local)
+
+- **pnpm prisma:generate**: Gera o Prisma Client localmente.
+- **pnpm prisma:migrate**: Executa as migrations Prisma localmente.
+- **pnpm prisma:seed**: Executa o seed localmente.
+- **pnpm prisma:deploy**: Aplica migrations e gera o Prisma Client para produção.
+- **pnpm prisma:studio**: Abre o Prisma Studio localmente.
+
+### 🗄️ Banco de dados (via Docker)
+
+- **pnpm db:migrate**: Executa as migrations Prisma dentro do container Docker.
+- **pnpm db:generate**: Gera o Prisma Client dentro do container Docker.
+- **pnpm db:seed**: Executa o seed dentro do container Docker.
+- **pnpm db:studio**: Abre o Prisma Studio dentro do container Docker.
+
+### 🐳 Docker
+
+- **pnpm docker:up**: Sobe os containers Docker em background.
+- **pnpm docker:stop**: Para os containers Docker.
+
+### 🧪 Testes
+
 - **pnpm test**: Roda todos os testes com Jest, sem cache, usando até 80% dos workers.
 - **pnpm test:watch**: Roda os testes em modo watch (reexecuta ao salvar arquivos).
 - **pnpm test:watchAll**: Roda todos os testes em modo watch.
+- **pnpm test:staged**: Roda testes relacionados a arquivos staged no Git.
+- **pnpm test:push**: Roda testes com cobertura e para na primeira falha (útil para CI/push).
 - **pnpm test:coverage**: Gera relatório de cobertura de testes.
+- **pnpm test:e2e**: Roda testes end-to-end.
+- **pnpm test:e2e:watch**: Roda testes end-to-end em modo watch.
+- **pnpm test:e2e:coverage**: Gera cobertura dos testes end-to-end.
 
-Scripts de banco e Docker já estão explicados no README.
+### 🧩 Outros
+
+- **pnpm prepare**: Inicializa hooks do Husky para Git.
 
 ---
 
 Esses scripts facilitam o fluxo de desenvolvimento, build, testes e deploy, tanto local quanto em Docker.
 
-## Boas práticas
+## 👍 Boas práticas
 
 - Nunca versionar `.env`, `.env.docker` ou arquivos com segredos.
 - Use `.env` para desenvolvimento local e `.env.docker` para Docker.
@@ -134,7 +192,7 @@ Esses scripts facilitam o fluxo de desenvolvimento, build, testes e deploy, tant
 
 ---
 
-## Contribuição
+## 🤝 Contribuição
 
 1. Fork este repositório
 2. Crie uma branch: `git checkout -b minha-feature`
@@ -144,6 +202,6 @@ Esses scripts facilitam o fluxo de desenvolvimento, build, testes e deploy, tant
 
 ---
 
-## Autor
+## 👤 Autor
 
 Nathan Rodrigues Vieira
