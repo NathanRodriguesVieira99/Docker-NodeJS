@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { requestBodySchema } from '@/schemas/requestBodySchema';
-import { UserAlreadyExistsError } from '@/useCases/errors/user-already-exists-error';
-import { makeCreateUserUseCase } from '@/factories/make-create-user-use-case';
+import { requestBodySchema } from '@/schemas/user-schemas';
+import { UserAlreadyExistsError } from '@/useCases/user-use-cases/errors/user-already-exists-error';
+import { makeCreateUserUseCase } from '@/factories/user-factories/make-create-user-use-case';
 
 export async function CreateUserController(
   request: FastifyRequest,
