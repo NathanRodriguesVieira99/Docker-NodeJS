@@ -1,38 +1,41 @@
-# versão do compose
 version: '3.9'
 
-services: # defino os serviços do projeto
-  nodejs: # serviço do NodeJs do projeto
-    build: . # construo a imagem com base no Dockerfile na raiz
-
-    image: backend_node # nome da imagem que será criada a partir do build do Dockerfile
-
+services:
+  nodejs:
+    build: .
+    image: backend_node
     ports:
-      - '3333:3333' # conecto as portas do container e do host
-      - '5555:5555' # porta do prisma client no docker
-
+      - '3333:3333'
+      - '5555:5555'
     depends_on:
-      - postgresql # espera rodar o postgreSQL antes de subir o NodeJs
-
-    restart: always # reinicia o container caso falhe
-
-    env_file: # variáveis de ambiente para o docker
+      - postgresql
+      - redis
+    restart: always
+    env_file:
       - .env.docker
 
-  postgresql: # serviço do postgreSQL
-    image: bitnami/postgresql:latest # uso a imagem do postgreSQL da Bitnami
-
+  postgresql:
+    image: postgres:17
     ports:
-      - '5432:5432' # conecto as portas do container e do host
-
-    env_file: # declara as variáveis de ambiente do banco de dados
-      - .env.docker
-
-    restart: always # reinicia o container caso falhe
-
+      - '5432:5432'
+    restart: always
     volumes:
-      - polls_pg_data:/var/lib/postgresql/data # persistência do banco de dados
+      - polls_pg_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRES_DB=${POSTGRESQL_DATABASE}
 
-# volumes para armazenar dados
+  redis:
+    image: bitnami/redis:latest
+    ports:
+      - '6379:6379'
+    restart: always
+    volumes:
+      - polls_redis_data:/bitnami/redis/data
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+
 volumes:
-  polls_pg_data: # nome do volume para persistir os dados do postgreSQL
+  polls_pg_data:
+  polls_redis_data:
