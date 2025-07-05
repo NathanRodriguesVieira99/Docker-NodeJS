@@ -1,7 +1,7 @@
 import type { FastifyTypedInstance } from '@/@types/FastifyTypedInstance';
-import { CreateUserController } from '@/controllers/create-user-controller';
-import { DeleteUserController } from '@/controllers/delete-user-controller';
-import { ListUsersController } from '@/controllers/list-users-controller';
+import { CreateUserController } from '@/controllers/user-controllers/create-user-controller';
+import { DeleteUserController } from '@/controllers/user-controllers/delete-user-controller';
+import { ListUsersController } from '@/controllers/user-controllers/list-users-controller';
 import { z } from 'zod';
 
 export function UserRoutes(app: FastifyTypedInstance) {
