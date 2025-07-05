@@ -21,10 +21,8 @@ services:
     restart: always
     volumes:
       - polls_pg_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=${POSTGRESQL_USERNAME}
-      - POSTGRES_PASSWORD=${POSTGRESQL_PASSWORD}
-      - POSTGRES_DB=${POSTGRESQL_DATABASE}
+    env_file:
+      - .env.docker
 
   redis:
     image: bitnami/redis:latest
@@ -33,8 +31,8 @@ services:
     restart: always
     volumes:
       - polls_redis_data:/bitnami/redis/data
-    environment:
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    env_file:
+      - .env.docker
 
 volumes:
   polls_pg_data:
