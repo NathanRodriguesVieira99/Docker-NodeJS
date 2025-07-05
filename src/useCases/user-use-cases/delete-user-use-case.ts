@@ -5,11 +5,15 @@ export class DeleteUserUseCase {
   constructor(private userRepository: PrismaUserRepository) {}
 
   async delete(id: string) {
-    await this.userRepository.delete(id);
+    // Primeiro verifica se o usuário existe
+    const userExists = await this.userRepository.findById(id);
 
-    if (!id) {
+    if (!userExists) {
       throw new UserNotExistsError();
     }
+
+    // Só então deleta o usuário
+    await this.userRepository.delete(id);
 
     return true;
   }

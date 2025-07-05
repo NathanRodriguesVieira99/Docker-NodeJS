@@ -1,7 +1,7 @@
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository';
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error';
+import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 import { compare } from 'bcryptjs';
-import { CreateUserUseCase } from '../create-user-use-case';
+import { CreateUserUseCase } from './create-user-use-case';
 
 describe('Create user useCase', () => {
   let userRepository: InMemoryUserRepository;
