@@ -28,6 +28,31 @@ export class PrismaUserRepository implements IUserRepository {
       user.updated_at
     );
   }
+
+  async findById(id: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return new User(
+      // passo os parâmetros obrigatórios da entidade
+      {
+        name: user.name,
+        email: user.email,
+        password_hash: user.password_hash,
+      },
+      // passo os parâmetros gerados automaticamente da entidade
+      user.id,
+      user.created_at,
+      user.updated_at
+    );
+  }
   async create(user: Prisma.UserCreateInput): Promise<User> {
     const prismaUser = await prisma.user.create({
       data: {
