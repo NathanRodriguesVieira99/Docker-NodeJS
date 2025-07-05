@@ -30,91 +30,84 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
    ```sh
    pnpm install
    ```
-3. **Copie o arquivo de variáveis de ambiente:**
+3. **Configure o arquivo de ambiente:**
+
    - Para desenvolvimento local:
+
      ```sh
+     # Windows (PowerShell)
+     Copy-Item .env.example .env
+
+     # Linux/Mac
      cp .env.example .env
      ```
+
    - Para rodar no Docker:
      ```sh
-     cp .env.example .env.docker
+     # O arquivo .env.docker já existe e está configurado
+     # Quando quiser usar Docker, execute:
+     Copy-Item .env.docker .env  # Windows
+     # ou
+     cp .env.docker .env         # Linux/Mac
      ```
 
 ---
 
-## Diferenças entre rodar Localmente e com Docker
+## 🚀 Como usar
 
-Rodar o projeto localmente ou via Docker muda a forma como você executa comandos e interage com o ambiente. Veja as principais diferenças:
+### **📋 Configuração inicial:**
 
-### 💻 Rodando Localmente
-
-- O Node.js roda diretamente na sua máquina.
-- O banco de dados pode rodar em container Docker **ou** em uma instância local instalada manualmente (ex: criada via pgAdmin, PostgreSQL nativo, etc).
-- Os comandos (migrations, seed, start, etc) são executados diretamente no seu terminal.
-- O arquivo de ambiente usado é o `.env`.
-
-**Fluxo típico:**
-
-1. Certifique-se de que o banco de dados PostgreSQL está rodando:
-   - Pode ser um container Docker **ou** um banco local criado manualmente (ex: via pgAdmin).
-2. Ajuste o `.env` para usar `localhost` (ou o host correto) no `DATABASE_URL`.
-3. Instale as dependências (caso ainda não tenha feito):
+1. **Clone e instale:**
 
    ```sh
+   git clone <url-do-repositorio>
+   cd Docker-NodeJS
    pnpm install
    ```
 
-4. Rode as migrações e o seed (direto no seu terminal):
+2. **Escolha o ambiente:**
+
+   **🏠 Para desenvolvimento LOCAL:**
 
    ```sh
-   pnpm prisma:migrate
-   pnpm prisma:seed
+   # Windows
+   Copy-Item .env.example .env
+
+   # Linux/Mac
+   cp .env.example .env
    ```
 
-5. Inicie o servidor localmente:
+   **🐳 Para desenvolvimento com DOCKER:**
 
    ```sh
-   pnpm dev
+   # Windows
+   Copy-Item .env.docker .env
+
+   # Linux/Mac
+   cp .env.docker .env
    ```
+
+### **⚡ Comandos por ambiente:**
+
+| Ação               | LOCAL                     | DOCKER            |
+| ------------------ | ------------------------- | ----------------- |
+| **Subir serviços** | Instalar PostgreSQL local | `pnpm docker:up`  |
+| **Migrações**      | `pnpm prisma:migrate`     | `pnpm db:migrate` |
+| **Seed**           | `pnpm prisma:seed`        | `pnpm db:seed`    |
+| **Rodar app**      | `pnpm dev`                | Container já roda |
+| **Studio**         | `pnpm prisma:studio`      | `pnpm db:studio`  |
+
+### **🔄 Alternar entre ambientes:**
+
+```sh
+# Para LOCAL
+Copy-Item .env.example .env
+
+# Para DOCKER
+Copy-Item .env.docker .env
+```
 
 Acesse a API em [http://localhost:3333](http://localhost:3333)
-
----
-
-### 🐳 Rodando com Docker
-
-- Tanto o Node.js quanto o banco de dados rodam em containers Docker.
-- Os comandos de banco (migrations, seed, etc) devem ser executados _dentro_ do container.
-- O arquivo de ambiente usado é o `.env.docker`.
-
-**Fluxo típico:**
-
-1. Ajuste o `.env.docker` se necessário.
-2. Suba todos os serviços (Node.js e banco):
-
-   ```sh
-   pnpm docker:up
-   # ou
-   docker compose up --build
-   ```
-
-3. Rode as migrações e o seed **dentro do container**:
-
-   ```sh
-   pnpm db:migrate
-   pnpm db:seed
-   ```
-
-Acesse a API em [http://localhost:3333](http://localhost:3333)
-
----
-
-**Resumo prático:**
-
-- Use `.env` e comandos `pnpm prisma:*`/`pnpm dev` no terminal local para desenvolvimento fora do Docker.
-- Use `.env.docker` e comandos `pnpm db:*`/`pnpm docker:*` dentro do container para desenvolvimento 100% Docker.
-
-Consulte sempre este README para saber qual comando usar em cada ambiente.
 
 ---
 
