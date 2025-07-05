@@ -4,3 +4,6 @@ build
 coverage
 .env
 .env.docker
+
+# anotações pessoais
+docs
