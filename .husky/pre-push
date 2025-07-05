@@ -1,3 +1,4 @@
-pnpm test:push 
+pnpm test:coverage
+pnpm test:e2e:coverage
 
 echo "pre-push hook has been executed 🚀"
