@@ -1,5 +1,5 @@
-import { compare, hash } from 'bcryptjs';
-import { randomInt, randomUUID } from 'node:crypto';
+import { comparePassword, hashPassword } from '@/utils/hash';
+import { randomUUID } from 'node:crypto';
 
 interface UserProps {
   id: string;
@@ -33,7 +33,7 @@ export class User implements UserProps {
   }
 
   public async comparePassword(password: string): Promise<boolean> {
-    return compare(password, this.password_hash);
+    return comparePassword(password, this.password_hash);
   }
 
   static async create(props: {
@@ -41,8 +41,7 @@ export class User implements UserProps {
     email: string;
     password: string;
   }): Promise<User> {
-    const randomHash = randomInt(10, 16);
-    const hashedPassword = await hash(props.password, randomHash);
+    const hashedPassword = await hashPassword(props.password);
 
     return new User({
       name: props.name,
