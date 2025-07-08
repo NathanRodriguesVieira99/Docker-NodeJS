@@ -1,8 +1,7 @@
 import type { User } from '@/generated/prisma';
 import type { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
-import { hash } from 'bcryptjs';
-import { randomInt } from 'node:crypto';
+import { hashPassword } from '@/utils/hash';
 
 export interface ICreateUserUseCaseParams {
   name: string;
@@ -31,8 +30,7 @@ export class CreateUserUseCase {
     email,
     password,
   }: ICreateUserUseCaseParams): Promise<ICreateUserUseCaseResponse> {
-    const randomHash = randomInt(6, 10);
-    const hashedPassword = await hash(password, randomHash);
+    const hashedPassword = await hashPassword(password);
 
     const userWithSameEmail = await this.findByEmail(email);
 

@@ -1,6 +1,6 @@
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
-import { compare } from 'bcryptjs';
+import { comparePassword } from '@/utils/hash';
 import { CreateUserUseCase } from './create-user-use-case';
 
 describe('Create user useCase', () => {
@@ -25,7 +25,7 @@ describe('Create user useCase', () => {
       password: userMock.password,
     });
 
-    const isPasswordCorrectlyHashed = await compare(
+    const isPasswordCorrectlyHashed = await comparePassword(
       userMock.password,
       user.user.password_hash
     );
