@@ -16,3 +16,6 @@ coverage
 
 # anotações pessoais
 docs
+
+# IDE
+.vscode
