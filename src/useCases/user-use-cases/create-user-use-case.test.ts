@@ -1,6 +1,6 @@
 import { InMemoryUserRepository } from '@/repositories/in-memory/in-memory-user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
-import { comparePassword } from '@/utils/hash';
+import { comparePassword } from '@/utils';
 import { CreateUserUseCase } from './create-user-use-case';
 
 describe('Create user useCase', () => {

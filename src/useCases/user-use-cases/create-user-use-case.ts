@@ -1,7 +1,7 @@
 import type { User } from '@/generated/prisma';
 import type { PrismaUserRepository } from '@/repositories/prisma/prisma-user-repository';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
-import { hashPassword } from '@/utils/hash';
+import { hashPassword } from '@/utils';
 
 export interface ICreateUserUseCaseParams {
   name: string;
