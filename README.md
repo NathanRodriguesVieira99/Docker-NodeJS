@@ -27,28 +27,48 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
    cd Docker-NodeJS
    ```
 2. **Instale as dependências:**
+
    ```sh
    pnpm install
    ```
+
 3. **Configure o arquivo de ambiente:**
 
-   - Para desenvolvimento local:
+   O projeto suporta múltiplos ambientes. Copie o arquivo `.env.example` para o arquivo correspondente ao ambiente desejado:
+
+   - **Desenvolvimento local:**
 
      ```sh
      # Windows (PowerShell)
-     Copy-Item .env.example .env
-
+     Copy-Item .env.example .env.local
      # Linux/Mac
-     cp .env.example .env
+     cp .env.example .env.local
      ```
 
-   - Para rodar no Docker:
+   - **Testes automatizados:**
+
      ```sh
-     # O arquivo .env.docker já existe e está configurado
-     # Quando quiser usar Docker, execute:
-     Copy-Item .env.docker .env  # Windows
-     # ou
-     cp .env.docker .env         # Linux/Mac
+     # Windows
+     Copy-Item .env.example .env.test
+     # Linux/Mac
+     cp .env.example .env.test
+     ```
+
+   - **Docker Compose:**
+
+     ```sh
+     # Windows
+     Copy-Item .env.example .env.docker
+     # Linux/Mac
+     cp .env.example .env.docker
+     ```
+
+   - **Produção:**
+     ```sh
+     # Windows
+     Copy-Item .env.example .env
+     # Linux/Mac
+     cp .env.example .env
      ```
 
 ---
@@ -99,12 +119,20 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 ### **🔄 Alternar entre ambientes:**
 
-```sh
-# Para LOCAL
-Copy-Item .env.example .env
+Para alternar entre ambientes, basta copiar o arquivo de exemplo para o nome correto. Exemplos:
 
-# Para DOCKER
-Copy-Item .env.docker .env
+```sh
+# Para desenvolvimento local
+Copy-Item .env.example .env.local
+
+# Para testes
+Copy-Item .env.example .env.test
+
+# Para Docker
+Copy-Item .env.example .env.docker
+
+# Para produção
+Copy-Item .env.example .env
 ```
 
 Acesse a API em [http://localhost:3333](http://localhost:3333)
@@ -166,8 +194,8 @@ Esses scripts facilitam o fluxo de desenvolvimento, build, testes e deploy, tant
 
 ## 👍 Boas práticas
 
-- Nunca versionar `.env`, `.env.docker` ou arquivos com segredos.
-- Use `.env` para desenvolvimento local e `.env.docker` para Docker.
+- Nunca versionar `.env`, `.env.local`, `.env.test`, `.env.docker` ou arquivos com segredos.
+- Use `.env.local` para desenvolvimento local, `.env.test` para testes, `.env.docker` para Docker e `.env` para produção.
 - Sempre rode comandos Prisma dentro do container quando estiver usando Docker.
 - Consulte este README para saber qual comando usar em cada ambiente.
 - Sempre rode `pnpm install` após clonar o projeto.
