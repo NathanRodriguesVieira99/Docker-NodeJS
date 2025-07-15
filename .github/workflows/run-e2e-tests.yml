@@ -7,6 +7,20 @@ jobs:
     name: Run E2E Tests
     runs-on: ubuntu-latest
 
+    services:
+      postgresql:
+        image: postgres:17
+        ports:
+          - '5432:5432'
+        options: >-
+          --restart unless-stopped
+        volumes:
+          - polls_pg_data:/var/lib/postgresql/data
+        env:
+          POSTGRES_USER: docker
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: api_node
+
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
@@ -20,3 +34,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm prisma:generate
       - run: pnpm test:e2e:coverage
+
+    env:
+      DATABASE_URL: 'postgresql://docker:docker@localhost:5432/api_node?schema=public'
