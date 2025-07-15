@@ -34,42 +34,22 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 3. **Configure o arquivo de ambiente:**
 
-   O projeto suporta múltiplos ambientes. Copie o arquivo `.env.example` para o arquivo correspondente ao ambiente desejado:
+   O projeto utiliza apenas dois arquivos de ambiente:
 
-   - **Desenvolvimento local:**
+   - `.env.docker` — para rodar o projeto via Docker Compose
+   - `.env` — para rodar o projeto em produção/local
 
-     ```sh
-     # Windows (PowerShell)
-     Copy-Item .env.example .env.local
-     # Linux/Mac
-     cp .env.example .env.local
-     ```
+   Exemplos:
 
-   - **Testes automatizados:**
+   ```sh
+   # Para Docker Compose
+   Copy-Item .env.example .env.docker   # Windows
+   cp .env.example .env.docker          # Linux/Mac
 
-     ```sh
-     # Windows
-     Copy-Item .env.example .env.test
-     # Linux/Mac
-     cp .env.example .env.test
-     ```
-
-   - **Docker Compose:**
-
-     ```sh
-     # Windows
-     Copy-Item .env.example .env.docker
-     # Linux/Mac
-     cp .env.example .env.docker
-     ```
-
-   - **Produção:**
-     ```sh
-     # Windows
-     Copy-Item .env.example .env
-     # Linux/Mac
-     cp .env.example .env
-     ```
+   # Para produção/local
+   Copy-Item .env.example .env          # Windows
+   cp .env.example .env                 # Linux/Mac
+   ```
 
 ---
 
@@ -119,20 +99,16 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 
 ### **🔄 Alternar entre ambientes:**
 
-Para alternar entre ambientes, basta copiar o arquivo de exemplo para o nome correto. Exemplos:
+Para alternar entre ambientes, basta copiar o arquivo de exemplo para o nome correto:
 
 ```sh
-# Para desenvolvimento local
-Copy-Item .env.example .env.local
+# Para Docker Compose
+Copy-Item .env.example .env.docker   # Windows
+cp .env.example .env.docker          # Linux/Mac
 
-# Para testes
-Copy-Item .env.example .env.test
-
-# Para Docker
-Copy-Item .env.example .env.docker
-
-# Para produção
-Copy-Item .env.example .env
+# Para produção/local
+Copy-Item .env.example .env          # Windows
+cp .env.example .env                 # Linux/Mac
 ```
 
 Acesse a API em [http://localhost:3333](http://localhost:3333)
