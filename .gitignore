@@ -13,6 +13,8 @@ coverage
 # Env
 .env
 .env.docker
+.env.test
+.env.local
 
 # anotações pessoais
 docs
