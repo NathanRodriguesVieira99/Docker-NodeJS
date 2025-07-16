@@ -32,12 +32,14 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
    pnpm install
    ```
 
-3. **Configure o arquivo de ambiente:**
 
-   O projeto utiliza apenas dois arquivos de ambiente:
+3. **Configure os arquivos de ambiente:**
+
+   O projeto utiliza arquivos de ambiente separados para cada contexto:
 
    - `.env.docker` — para rodar o projeto via Docker Compose
    - `.env` — para rodar o projeto em produção/local
+   - `.env.test` — para rodar os testes automatizados (E2E)
 
    Exemplos:
 
@@ -49,6 +51,10 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
    # Para produção/local
    Copy-Item .env.example .env          # Windows
    cp .env.example .env                 # Linux/Mac
+
+   # Para testes automatizados (E2E)
+   Copy-Item .env.example .env.test     # Windows
+   cp .env.example .env.test            # Linux/Mac
    ```
 
 ---
@@ -97,19 +103,26 @@ Consiste em uma API de usuários modular, extensível e pronta para evoluir para
 | **Rodar app**      | `pnpm dev`                | Container já roda |
 | **Studio**         | `pnpm prisma:studio`      | `pnpm db:studio`  |
 
-### **🔄 Alternar entre ambientes:**
 
-Para alternar entre ambientes, basta copiar o arquivo de exemplo para o nome correto:
+### **Testes automatizados e isolamento de banco de dados**
+
+Para rodar os testes E2E, utilize o arquivo `.env.test`. O ambiente de testes cria um schema isolado no banco de dados para cada teste, garantindo que não haja interferência entre eles. O schema é criado e destruído automaticamente pelo ambiente de testes.
+
+**Importante:**
+- O campo `DATABASE_URL` no `.env.test` **NÃO** deve conter o parâmetro `?schema=public` ou qualquer schema fixo. O ambiente de testes irá adicionar dinamicamente o schema correto para cada execução.
+- Exemplo de configuração correta para `.env.test`:
+
+```dotenv
+DATABASE_URL=postgresql://usuario:senha@localhost:5432/database_de_teste
+```
+
+Os testes E2E podem ser executados com:
 
 ```sh
-# Para Docker Compose
-Copy-Item .env.example .env.docker   # Windows
-cp .env.example .env.docker          # Linux/Mac
-
-# Para produção/local
-Copy-Item .env.example .env          # Windows
-cp .env.example .env                 # Linux/Mac
+pnpm test:e2e
 ```
+
+Você verá no terminal logs indicando a criação e remoção dos schemas temporários.
 
 Acesse a API em [http://localhost:3333](http://localhost:3333)
 
@@ -148,17 +161,13 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 - **pnpm docker:up**: Sobe os containers Docker em background.
 - **pnpm docker:stop**: Para os containers Docker.
 
+
 ### 🧪 Testes
 
-- **pnpm test**: Roda todos os testes com Jest, sem cache, usando até 80% dos workers.
-- **pnpm test:watch**: Roda os testes em modo watch (reexecuta ao salvar arquivos).
-- **pnpm test:watchAll**: Roda todos os testes em modo watch.
-- **pnpm test:staged**: Roda testes relacionados a arquivos staged no Git.
-- **pnpm test:push**: Roda testes com cobertura e para na primeira falha (útil para CI/push).
-- **pnpm test:coverage**: Gera relatório de cobertura de testes.
-- **pnpm test:e2e**: Roda testes end-to-end.
-- **pnpm test:e2e:watch**: Roda testes end-to-end em modo watch.
-- **pnpm test:e2e:coverage**: Gera cobertura dos testes end-to-end.
+- **pnpm test**: Roda todos os testes com Jest.
+- **pnpm test:coverage**: Gera cobertura dos testes.
+- **pnpm test:e2e**: Roda testes end-to-end (E2E) com isolamento de banco de dados por schema, usando `.env.test`.
+- **pnpm test:e2e:coverage**: Gera cobertura dos testes E2E.
 
 ### 🧩 Outros
 
@@ -168,10 +177,12 @@ Acesse a API em [http://localhost:3333](http://localhost:3333)
 
 Esses scripts facilitam o fluxo de desenvolvimento, build, testes e deploy, tanto local quanto em Docker.
 
+
 ## 👍 Boas práticas
 
-- Nunca versionar `.env`, `.env.local`, `.env.test`, `.env.docker` ou arquivos com segredos.
-- Use `.env.local` para desenvolvimento local, `.env.test` para testes, `.env.docker` para Docker e `.env` para produção.
+- Nunca versionar `.env`, `.env.test`, `.env.docker` ou arquivos com segredos.
+- Use `.env.test` para testes (E2E), `.env.docker` para Docker e `.env` para produção.
+- No `.env.test`, **NÃO** inclua o parâmetro `?schema=public` na `DATABASE_URL`.
 - Sempre rode comandos Prisma dentro do container quando estiver usando Docker.
 - Consulte este README para saber qual comando usar em cada ambiente.
 - Sempre rode `pnpm install` após clonar o projeto.
