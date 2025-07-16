@@ -5,7 +5,7 @@ const config: Config = {
   ...baseConfig,
   testMatch: ['**/*.e2e.test.(ts|js|tsx|jsx)'],
   testPathIgnorePatterns: ['/node_modules/'],
-  maxWorkers: 1, 
+  maxWorkers: 1,
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/**/*.{test,spec}.ts',
